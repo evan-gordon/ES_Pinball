@@ -1,3 +1,4 @@
+//Evan Gordon, Ryan
 #define N_DISPLAYS 5   // up to 5 score displays 
 #define N_DIGITS   6   // each with 6 BCD digits 
 #define INCR    8353   // score incremen
