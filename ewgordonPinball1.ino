@@ -9,11 +9,16 @@ volatile int DISP[N_DISPLAYS][N_DIGITS] = {-1};
 void setup() {
   Serial.begin(9600);
   DDRA = B11111111;
+  pinMode(38, OUTPUT);
+  pinMode(A9, OUTPUT);
+  pinMode(A15, OUTPUT);
+  int ports[7] = {39, 40, 41, 50, 51, 52, 53};
+  for(int i = 0; i < 7; ++i){pinMode(ports[i], OUTPUT);}
   attachInterrupt(2, dispIsr, RISING);
 }
 
 void loop() { // blank (not zero) all the displays by setting the score to -1 
-  for (int i=0 ; i<N_DISPLAYS ; i++)
+  for (int i=0 ; i<N_DISPLAYS ; i++)//update to code from document before turning in
      for (int dig=0 ; dig<N_DIGITS ; dig++)
         DISP[i][dig] = dig ;
 }
@@ -36,8 +41,10 @@ int removeSmallestDigit(long int& score)//takes score splits off leading bit fro
 void dispIsr()
 {
   static int digit = 0;
+  static int digit_enable[N_DIGITS] = {39, 40, 41, 50, 51, 52};//and 53
+  
   digitalWrite(A15, HIGH);
-  digitalWrite((39 + digit), LOW);//set previous digit to low
+  digitalWrite(digit_enable[digit], LOW);//set previous digit to low
   digit = (digit + 1) % 6;
   digitalWrite(A9, HIGH);
   for(int i = 0; i < N_DISPLAYS; ++i)
@@ -47,7 +54,7 @@ void dispIsr()
     digitalWrite(DISP_ENABLED[i], LOW);
   }
   digitalWrite(A9, LOW);
-  digitalWrite((39 + digit), HIGH);
+  digitalWrite(digit_enable[digit], HIGH);
   digitalWrite(A15, LOW);
 }
 
