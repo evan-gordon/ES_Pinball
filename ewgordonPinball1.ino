@@ -18,14 +18,11 @@ void setup() {
 }
 
 void loop() { // blank (not zero) all the displays by setting the score to -1 
-  //for (int i=0 ; i<N_DISPLAYS ; i++)//update to code from document before turning in
-  //   for (int dig=0 ; dig<N_DIGITS ; dig++)
-  //      DISP[i][dig] = dig ;
      // blank (not zero) all the displays by setting the score to -1 
    for (int disp=0 ; disp<N_DISPLAYS ; disp++)  { setScore(disp, -1) ; }
    delay(1000) ;                  // delay long enough to see all blanks 
    // increase the score on each display by a set amount each half second 
-   for (int score=0 ; score<1000000 ; score+=INCR) 
+   for (long int score=0 ; score<1000000 ; score+=INCR) 
     { 
       for (int disp=0 ; disp<N_DISPLAYS ; disp++) {setScore(disp, score) ; }
       delay(500) ; 
